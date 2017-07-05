@@ -4,9 +4,20 @@ var storage = require('node-persist');
 
 storage.initSync();
 
-// storage.setItemSync('name', 'Tony');
+// storage.setItemSync('accounts', [{
+//   username: 'tony',
+//   balance: 0
+// }]);
 
-var name = storage.getItemSync('name');
-console.log('Save name is: ' + name);
+var accounts = storage.getItemSync('accounts');
 
-some random change
+// accounts.push({
+//   username: 'jen',
+//   balance: 75
+// });
+
+// storage.setItemSync('accounts', accounts);
+
+
+console.log(accounts);
+
