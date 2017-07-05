@@ -4,6 +4,46 @@ var storage = require('node-persist');
 
 storage.initSync();
 
+
+var argv = require('yargs')
+           .command('create', 'create a new account', function(yargs){
+              yargs.options({
+                name: {
+                  demand: true,
+                  alias: 'n',
+                  desciption: "account name (eg. twitter, facebook)",
+                  type: "string"
+                },
+                username: {
+                  demand: true,
+                  alias: 'u',
+                  desciption: "account username or email",
+                  type: "string"
+                },
+                password: {
+                  demand: true,
+                  alias: 'p',
+                  desciption: "account password",
+                  type: "string"
+                }
+              }).help('help')
+            })
+
+            .command('get', 'get an existing account', function(yargs){
+              yargs.options({
+                name: {
+                  demand: true,
+                  alias: 'n',
+                  desciption: "account name (eg. twitter, facebook)",
+                  type: "string"
+                }
+              }).help('help')
+            })
+            .help('help')
+            .argv;
+
+var command = argv._[0];
+
 function createAccount (account){
   var accounts = storage.getItemSync('args');
 
@@ -30,11 +70,21 @@ function getAccount(accountName){
   return matchedAccount;
 }
 
-// createAccount({
-//   name: 'facebook',
-//   username: 'tony@something.com',
-//   password: 'password123!'
-// })
+if (command === 'create'){
+  var createdAccount = createAccount({
+    name: argv.name,
+    username: argv.username,
+    password: argv.password
+  });
+  console.log('account creted');
+  console.log(createdAccount);
+} else if (command === 'get'){
+  var fetchAccount = getAccount(argv.name);
 
-var facebookAccount = getAccount('facebook');
-console.log(facebookAccount);
+  if (typeof fetchAccount === 'undefined'){
+    console.log('account not found');
+  } else {
+    console.log('account found');
+    console.log(fetchAccount);
+  }
+}
