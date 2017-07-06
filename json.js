@@ -12,3 +12,13 @@ var personObject = JSON.parse(personJSON);
 
 console.log(personObject.name);
 console.log(typeof personObject);
+
+var animal = '{"name": "Halley"}';
+
+var animalObject = JSON.parse(animal);
+
+animalObject.age = 1;
+
+animal = JSON.stringify(animalObject);
+
+console.log(animal);
